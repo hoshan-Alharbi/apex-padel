@@ -44,6 +44,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Vignette on the page edges (fixed, non-interactive). */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: radial-gradient(ellipse 120% 100% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+}
+
 /* Film grain over everything: fixed, non-interactive, so it never repaints on scroll. */
 body::after {
   content: '';
@@ -51,7 +61,7 @@ body::after {
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.045;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -84,6 +94,24 @@ p {
   max-width: 1240px;
   margin-inline: auto;
   padding-inline: 24px;
+}
+
+/* Display font for big headlines (Alexandria, see layout.tsx); body stays Readex Pro. */
+.display {
+  font-family: var(--font-display), var(--font-readex), sans-serif;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+/* Glass: blur + translucent fill + 8% white edge. */
+.glass {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(23, 28, 38, 0.55);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 24px 48px -22px rgba(0, 0, 0, 0.85);
 }
 
 .mono {
@@ -178,8 +206,8 @@ p {
   height: 64px;
   padding-inline: 20px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(14, 19, 29, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 19, 29, 0.6);
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
   box-shadow:
@@ -290,6 +318,34 @@ p {
   background: linear-gradient(115deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 22%, transparent 38%);
 }
 
+/* One light sweep across the screen glass when the phone first appears. */
+.device.sweep .device-screen::after {
+  content: '';
+  position: absolute;
+  inset: -20% -60%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.28) 50%, transparent 60%);
+  transform: translateX(-70%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .device.sweep .device-screen::after {
+    animation: sweep 1.5s var(--ease-out) 1.1s 1 both;
+  }
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 1;
+    transform: translateX(-70%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(70%);
+  }
+}
+
 .device-btn {
   position: absolute;
   width: 4px;
@@ -339,6 +395,12 @@ p {
   transform: none;
 }
 
+/* Phones rise with a slight turn. */
+.reveal-phone {
+  transform: translateY(72px) rotate(-7deg) scale(0.95);
+  transition-duration: 1.1s;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -364,6 +426,11 @@ p {
 
 .footer-links a:hover {
   color: var(--ink-strong);
+}
+
+.footer-meta span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .footer-meta {
@@ -404,7 +471,22 @@ p {
   }
 }
 
+@media (max-width: 860px) {
+  /* Narrow screens: a more solid glass bar so content scrolling under it stays readable. */
+  .nav-pill {
+    background: rgba(14, 19, 29, 0.86);
+  }
+}
+
 @media (max-width: 640px) {
+  :root {
+    --header-h: 76px;
+  }
+
+  .site-header {
+    top: 10px;
+  }
+
   .container {
     padding-inline: 16px;
   }
@@ -412,5 +494,9 @@ p {
   .nav-pill {
     height: 56px;
     padding-inline: 14px 8px;
+  }
+
+  .footer-meta {
+    flex-direction: column;
   }
 }

@@ -28,6 +28,9 @@
   - التشغيل: `node mobile/scripts/capture-screens.mjs --url exp://127.0.0.1:<port>`.
 - **المهمة 3 (تمت):** `land/` Next.js 16 (App Router، static)، عربي RTL، Readex Pro + Space Mono عبر `next/font`، أيقونات Phosphor. النصوص في `land/lib/site.ts`. SEO: metadata + OG image + robots + sitemap. `Dockerfile` في الجذر يبني `land/` (standalone) — مجرّب: `docker build` و`docker run` والمسارات كلها 200.
   - المكتبات (بموافقة صاحب المشروع): next 16.4.5، react/react-dom 19.3.1، @phosphor-icons/react 2.1.10، typescript 5.9.3 + أنواع React وNode.
+- **تحسين اللاندنج (2026-11-09):** إيقاع أقسام (أرقام داكنة بأرقام ليمونية تعدّ، bento على خطوط ملعب، marquee مدن، مشهد تقسيم full-bleed حي، تحميل بخلفية ليمونية كاملة)، السماوي لون ثاني، خط عناوين Alexandria 900 (مؤقت لين يختار صاحب المشروع بينه وبين Reem Kufi)، parallax ماوس + لمعة زجاج + خطوط ملعب ترتسم في الهيرو، spotlight وحد متدرج للبطاقات، vignette + grain، devIndicators: false.
+  - **ينتظر من صاحب المشروع:** صورة ملعب بالليل في `land/public/hero-court.jpg` (الهيرو يستخدمها تلقائياً لو موجودة، وإلا الخلفية المرسومة).
+  - الـ marquee فيه "الدمام" بطلب صاحب المشروع، مع إن التطبيق فيه 3 مدن بس.
 - إصلاح جانبي في التطبيق: `Glass` يستخدم `blurMethod: 'none'` قبل ما يجهز الهدف (كان يطلع تحذير BlurView)، و`LogBox` يتجاهل تحذير ImageBackground من مكتبة خارجية.
 
 ## Features حسب الحالة

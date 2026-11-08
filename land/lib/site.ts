@@ -13,7 +13,10 @@ export const NAV = { features: 'المزايا', split: 'تقسيم الفاتو
 
 export const HERO = {
   eyebrow: 'حجز ملاعب البادل في السعودية',
-  titleAccent: 'ملعبك الجاي،',
+  // Rendered as: ملعبك <الجاي>، / بضغطة وحدة (the middle word gets the volt→cyan gradient).
+  titleLead: 'ملعبك',
+  titleHighlight: 'الجاي',
+  titleTail: '،',
   title: 'بضغطة وحدة',
   body: 'اكتشف أندية البادل في الرياض وجدة والخبر، اختر الوقت اللي يناسبك، وقسّم الفاتورة على الشلة.',
   primary: 'حمّل التطبيق',
@@ -76,8 +79,15 @@ export const SPLIT = {
   paid: 'دفع',
   waiting: 'بانتظار الدفع',
   timer: 'الوقت المتبقي',
-  progress: '165 من 220 ر.س',
+  /** Collected so far, by number of players who paid (1 to 3). */
+  collected: ['55 من 220 ر.س', '110 من 220 ر.س', '165 من 220 ر.س'],
+  complete: 'اكتمل الدفع، الحجز مؤكد',
+  /** Countdown start in seconds (44:04, as in the app's seed booking). */
+  startSeconds: 44 * 60 + 4,
 };
+
+/** Marquee between the features and the split-bill scene. */
+export const CITIES = ['الرياض', 'جدة', 'الخبر', 'الدمام'];
 
 export const STEPS = {
   title: 'من الفكرة للملعب',

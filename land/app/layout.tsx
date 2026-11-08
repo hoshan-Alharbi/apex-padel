@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Readex_Pro, Space_Mono } from 'next/font/google';
+import { Alexandria, Readex_Pro, Space_Mono } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import { SITE } from '@/lib/site';
@@ -9,6 +9,8 @@ import './sections.css';
 
 // Same fonts as the app (docs/design-system.md): Readex Pro for text, Space Mono for numbers.
 const readex = Readex_Pro({ subsets: ['arabic', 'latin'], variable: '--font-readex', display: 'swap' });
+// Display font for headlines (provisional pick, pending the owner's choice vs Reem Kufi).
+const alexandria = Alexandria({ weight: ['800', '900'], subsets: ['arabic', 'latin'], variable: '--font-display', display: 'swap' });
 const spaceMono = Space_Mono({ weight: '700', subsets: ['latin'], variable: '--font-mono', display: 'swap' });
 
 export const metadata: Metadata = {
@@ -37,7 +39,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className={`${readex.variable} ${spaceMono.variable}`}>
+    <html lang="ar" dir="rtl" className={`${readex.variable} ${alexandria.variable} ${spaceMono.variable}`}>
       <body>
         {/* Without JavaScript the scroll reveals never fire: show everything. */}
         <noscript>

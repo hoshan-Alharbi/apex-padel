@@ -1,18 +1,29 @@
 import { CalendarCheck, Star, UsersThree } from '@phosphor-icons/react/dist/ssr';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import Image from 'next/image';
 
 import { HERO, SCREENS } from '@/lib/site';
 
+import { CourtLines } from '../CourtLines';
+import { PointerTilt } from '../motion';
 import { PhoneFrame } from '../PhoneFrame';
+
+/** Night court photo supplied by the owner; until it exists the hero uses the drawn background. */
+const HERO_PHOTO = '/hero-court.jpg';
+const hasPhoto = existsSync(join(process.cwd(), 'public', HERO_PHOTO));
 
 export function Hero() {
   const { chips } = HERO;
   return (
     <section className="hero" id="top">
       <div className="hero-bg" aria-hidden>
+        {hasPhoto && <Image src={HERO_PHOTO} alt="" fill priority sizes="100vw" className="hero-photo" />}
+        <div className="hero-shade" />
         <div className="hero-grid" />
         <div className="beam beam-a" />
         <div className="beam beam-b" />
-        <div className="court" />
+        <div className="beam beam-c" />
       </div>
       <div className="hero-word" aria-hidden>
         PADEL
@@ -24,9 +35,10 @@ export function Hero() {
             <Star size={14} weight="fill" />
             {HERO.eyebrow}
           </span>
-          <h1>
-            <span className="accent">{HERO.titleAccent}</span>
-            {HERO.title}
+          <h1 className="display">
+            {HERO.titleLead} <span className="shimmer-text">{HERO.titleHighlight}</span>
+            {HERO.titleTail}
+            <span className="hero-title-2">{HERO.title}</span>
           </h1>
           <p className="lead">{HERO.body}</p>
           <div className="hero-actions">
@@ -40,12 +52,16 @@ export function Hero() {
         </div>
 
         <div className="hero-visual">
+          <CourtLines draw className="hero-court" />
           <div className="hero-glow" aria-hidden />
-          <div className="tilt">
-            <PhoneFrame src={SCREENS.home} alt={HERO.screenAlt} priority />
-          </div>
+          <div className="hero-glow cyan" aria-hidden />
+          <PointerTilt>
+            <div className="tilt">
+              <PhoneFrame src={SCREENS.home} alt={HERO.screenAlt} priority className="sweep" />
+            </div>
+          </PointerTilt>
 
-          <div className="chip chip-a" aria-hidden>
+          <div className="chip glass chip-a" aria-hidden>
             <span className="chip-icon">
               <CalendarCheck size={20} weight="bold" />
             </span>
@@ -54,7 +70,7 @@ export function Hero() {
               <strong>{chips.next.value}</strong>
             </span>
           </div>
-          <div className="chip chip-b" aria-hidden>
+          <div className="chip glass chip-b" aria-hidden>
             <span className="chip-icon cyan">
               <Star size={20} weight="fill" />
             </span>
@@ -63,7 +79,7 @@ export function Hero() {
               <strong className="mono">{chips.club.value}</strong>
             </span>
           </div>
-          <div className="chip chip-c" aria-hidden>
+          <div className="chip glass chip-c" aria-hidden>
             <span className="chip-icon rose">
               <UsersThree size={20} weight="bold" />
             </span>

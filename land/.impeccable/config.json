@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "app/sections.css"
+        ],
+        "createdAt": "2026-11-08T21:02:46.189Z",
+        "reason": "user requested: hero word الجاي with volt→cyan gradient + slow shimmer (landing brief, 2026-11-09)"
+      }
+    ]
+  }
+}
