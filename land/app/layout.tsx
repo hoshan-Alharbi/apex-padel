@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { SITE } from '@/lib/site';
 
 import './globals.css';
+import './sections.css';
 
 // Same fonts as the app (docs/design-system.md): Readex Pro for text, Space Mono for numbers.
 const readex = Readex_Pro({ subsets: ['arabic', 'latin'], variable: '--font-readex', display: 'swap' });

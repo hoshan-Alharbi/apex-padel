@@ -1,4 +1,5 @@
 // Landing-page copy and constants (Arabic, approved by the owner). One place to edit text.
+// Facts here come from the app itself (cities, durations, split rules), not invented metrics.
 
 export const SITE = {
   name: 'أبكس بادل',
@@ -8,7 +9,7 @@ export const SITE = {
   url: process.env.SITE_URL ?? 'http://localhost:3000',
 };
 
-export const NAV = { features: 'المزايا', download: 'حمّل التطبيق' };
+export const NAV = { features: 'المزايا', split: 'تقسيم الفاتورة', how: 'طريقة الحجز', download: 'حمّل التطبيق' };
 
 export const HERO = {
   eyebrow: 'حجز ملاعب البادل في السعودية',
@@ -18,22 +19,47 @@ export const HERO = {
   primary: 'حمّل التطبيق',
   secondary: 'شوف المزايا',
   screenAlt: 'الشاشة الرئيسية في تطبيق أبكس بادل: الأندية المميزة وحجزك القادم',
+  chips: {
+    next: { label: 'حجزك القادم', value: 'الليلة 9:00 م' },
+    club: { label: 'نادي الصدارة للبادل', value: '4.9' },
+    split: { label: 'باقي شريك واحد', value: '55 ر.س' },
+  },
 };
 
-export const FEATURES_TITLE = 'كل اللي تحتاجه قبل المباراة';
+export const FACTS = [
+  { value: '3', label: 'مدن: الرياض، جدة، الخبر' },
+  { value: '14', label: 'يوم تقدر تحجز فيها مقدماً' },
+  { value: '60-120', label: 'دقيقة لكل حجز، والسعر يتحدّث مباشرة' },
+  { value: '2-4', label: 'لاعبين يتقاسمون الفاتورة' },
+];
 
-export const DISCOVER = {
-  title: 'اكتشف الأندية حولك',
-  body: 'فلتر المكيّف والداخلي والخارجي، شوف التقييمات والمرافق، واحفظ ناديك المفضل.',
-  points: ['أندية في الرياض وجدة والخبر', 'ملاعب مكيّفة وبانورامية', 'تقييمات وآراء اللاعبين'],
-  screenAlt: 'صفحة تفاصيل النادي: الصور والمرافق والملاعب',
-};
-
-export const BOOK = {
-  title: 'احجز وقتك في ثواني',
-  body: 'تقويم واضح، أوقات مقسّمة حسب الفترة، والسعر يتحدّث مع المدة والإضافات.',
-  points: ['14 يوم قدامك في تقويم واحد', 'مدة 60 أو 90 أو 120 دقيقة', 'مضارب وكور ومويه مع الحجز'],
-  screenAlt: 'شاشة الحجز: التقويم والمدة والأوقات المتاحة',
+export const FEATURES = {
+  title: 'كل اللي تحتاجه قبل المباراة',
+  discover: {
+    title: 'اكتشف الأندية حولك',
+    body: 'شوف الصور والتقييمات والمرافق، وقارن الملاعب الداخلية والخارجية قبل ما تحجز.',
+    screenAlt: 'صفحة تفاصيل النادي: الصور والمرافق والملاعب',
+  },
+  book: {
+    title: 'احجز وقتك في ثواني',
+    body: 'تقويم واضح، وأوقات مقسّمة حسب الفترة، والمحجوز مشطوب.',
+    screenAlt: 'شاشة الحجز: التقويم والمدة والأوقات المتاحة',
+  },
+  filters: {
+    title: 'الملعب اللي يناسب جوّك',
+    body: 'مكيّف في عز الصيف، أو خارجي على نسمة الليل.',
+    chips: ['الكل', 'مكيّف', 'داخلي', 'خارجي'],
+  },
+  durations: {
+    title: 'اختر المدة',
+    items: [
+      { mins: '60', hint: 'أساسي', price: '120' },
+      { mins: '90', hint: 'الأنسب للمباراة', price: '170', active: true },
+      { mins: '120', hint: 'لعب ممتد', price: '220' },
+    ],
+    unit: 'د',
+    currency: 'ر.س',
+  },
 };
 
 export const SPLIT = {
@@ -50,6 +76,16 @@ export const SPLIT = {
   paid: 'دفع',
   waiting: 'بانتظار الدفع',
   timer: 'الوقت المتبقي',
+  progress: '165 من 220 ر.س',
+};
+
+export const STEPS = {
+  title: 'من الفكرة للملعب',
+  items: [
+    { title: 'اختر النادي', body: 'فلتر حسب المدينة ونوع الملعب، وشوف أقرب وقت متاح.' },
+    { title: 'احجز الوقت', body: 'اختر اليوم والمدة والإضافات، وادفع بمدى أو Apple Pay أو STC Pay.' },
+    { title: 'ادعُ الشلة', body: 'شارك رابط الدفع، وتذكرة الدخول توصلك أول ما يكتمل.' },
+  ],
 };
 
 export const DOWNLOAD = {
