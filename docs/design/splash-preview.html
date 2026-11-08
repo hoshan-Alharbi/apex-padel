@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apex Splash Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0E131D; --volt:#D4FF00; --cyan:#38BDF8; --muted:#8B949E; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; gap:24px; align-items:center; justify-content:center;
+         background:#05070b; font-family:'Readex Pro',sans-serif; color:#dee2f1; flex-wrap:wrap; padding:16px; }
+  .phone { width:360px; height:780px; border-radius:44px; background:var(--bg); position:relative; overflow:hidden;
+           box-shadow:0 0 0 10px #1b202a, 0 30px 80px rgba(0,0,0,.6); }
+  #stage { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  #logo { width:300px; height:300px; overflow:visible; }
+  .word { margin-top:6px; text-align:center; }
+  .word .en { font-family:'Space Mono',monospace; letter-spacing:.32em; font-size:20px; color:#fff; direction:ltr; }
+  .word .en span, .word .ar { display:inline-block; opacity:0; }
+  .word .ar { font-size:15px; color:var(--muted); margin-top:6px; font-weight:400; }
+  #home { position:absolute; inset:0; opacity:0; padding:56px 20px; background:var(--bg); }
+  #home .bar { height:14px; width:40%; border-radius:7px; background:#252a35; margin-bottom:10px; }
+  #home h1 { font-size:26px; margin:12px 0 18px; }
+  #home h1 b { color:var(--volt); }
+  #home .card { height:190px; border-radius:16px; background:#1f242d; margin-bottom:14px; border:1px solid rgba(255,255,255,.08); }
+  #flash { position:absolute; inset:0; background:radial-gradient(circle at 50% 50%, rgba(212,255,0,.35), transparent 60%); opacity:0; pointer-events:none; }
+  .panel { max-width:340px; font-size:14px; line-height:1.9; }
+  .panel h2 { color:var(--volt); font-size:18px; margin:0 0 8px; }
+  .panel ol { padding-inline-start:20px; margin:0 0 16px; }
+  button { font-family:inherit; font-weight:700; font-size:15px; background:var(--volt); color:#0E131D; border:0;
+           border-radius:12px; padding:12px 22px; cursor:pointer; }
+  label { display:block; margin-top:12px; color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div id="home">
+    <div class="bar"></div>
+    <h1>احجز ملعبك <b>الجاي</b></h1>
+    <div class="card"></div><div class="card"></div><div class="card"></div>
+  </div>
+  <div id="stage">
+    <svg id="logo" viewBox="0 0 1024 1024">
+      <defs>
+        <linearGradient id="gVolt" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#E2FF3D"/><stop offset="1" stop-color="#C2EF00"/>
+        </linearGradient>
+        <linearGradient id="gCyan" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4CC9FA"/><stop offset="1" stop-color="#0A84C9"/>
+        </linearGradient>
+      </defs>
+
+      <!-- court lines (crosshair) -->
+      <g id="court" stroke="#2A3240" stroke-width="4" stroke-dasharray="14 12" opacity="0">
+        <line x1="256" y1="512" x2="768" y2="512"/>
+        <line x1="512" y1="372" x2="512" y2="770"/>
+      </g>
+      <!-- orbit -->
+      <circle id="orbit" cx="512" cy="512" r="320" fill="none" stroke="#232A37" stroke-width="5"
+              transform="rotate(180 512 512)" stroke-dasharray="2011" stroke-dashoffset="2011"/>
+      <!-- orbit trail (lights up while ball travels) -->
+      <circle id="trail" cx="512" cy="512" r="320" fill="none" stroke="#D4FF00" stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="0 2011" opacity="0"/>
+
+      <!-- racket (pivot at the grip) -->
+      <g id="racket" style="transform-origin:512px 900px; transform-box:view-box;" opacity="0">
+        <path d="M336 572 A188 188 0 1 0 688 572" fill="none" stroke="url(#gCyan)" stroke-width="26" stroke-linecap="round"/>
+        <g id="holes">
+          <circle cx="512" cy="580" r="20" fill="#D4FF00"/>
+          <circle cx="448" cy="591" r="16" fill="#38BDF8"/><circle cx="576" cy="591" r="16" fill="#38BDF8"/>
+          <circle cx="392" cy="628" r="12" fill="#AFC72A"/><circle cx="632" cy="628" r="12" fill="#AFC72A"/>
+          <circle cx="480" cy="652" r="18" fill="#D4FF00"/><circle cx="544" cy="652" r="18" fill="#D4FF00"/>
+          <circle cx="512" cy="720" r="22" fill="#D4FF00"/>
+          <circle cx="452" cy="732" r="15" fill="#38BDF8"/><circle cx="572" cy="732" r="15" fill="#38BDF8"/>
+        </g>
+        <path d="M492 828 H532 L540 888 H484 Z" fill="url(#gVolt)"/>
+        <rect x="476" y="892" width="72" height="12" rx="6" fill="#9CA3AF"/>
+      </g>
+
+      <!-- apex chevron: glow layers (RN-friendly: stacked opacity, no blur filter) -->
+      <g id="apex" style="transform-origin:512px 380px; transform-box:view-box;" opacity="0">
+        <polygon points="512,196 768,552 640,552 512,366 384,552 256,552" fill="#D4FF00" opacity=".10"/>
+        <polygon points="512,202 760,548 644,548 512,357 380,548 264,548" fill="#D4FF00" opacity=".18"/>
+        <polygon points="512,208 752,544 648,544 512,348 376,544 272,544" fill="url(#gVolt)"/>
+        <polygon points="512,348 648,544 632,544 512,372 392,544 376,544" fill="#000" opacity=".18"/>
+      </g>
+
+      <!-- ball -->
+      <g id="ball" opacity="0">
+        <circle id="ballGlow" r="44" fill="#D4FF00" opacity=".18"/>
+        <circle r="28" fill="#D4FF00"/>
+        <path d="M-27 -2 Q0 -14 27 -2" fill="none" stroke="#0E131D" stroke-width="5" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <div class="word">
+      <div class="en" id="en"></div>
+      <div class="ar" id="ar">أبكس بادل</div>
+    </div>
+  </div>
+  <div id="flash"></div>
+</div>
+
+<div class="panel">
+  <h2>تسلسل الأوبننج (≈ 4.2 ثانية عند 1.3×)</h2>
+  <ol>
+    <li>خطوط الملعب والدائرة ترسم نفسها.</li>
+    <li>المضرب يطلع من تحت بـ Spring، والثقوب تنبض واحد ورا الثاني.</li>
+    <li>الكرة تنزل، المضرب يضربها: وميض + اهتزاز (Haptic).</li>
+    <li>الكرة تطير وتلف حول الدائرة لفّة ونص، والدائرة تنوّر وراها.</li>
+    <li>لما تعدي القمة، حرف الـ A ينزل بقوة مع توهّج، والكرة تستقر مكانها في الشعار.</li>
+    <li>الاسم يطلع حرف حرف، ثم زوم داخل المضرب ← الرئيسية.</li>
+  </ol>
+  <button id="replay">إعادة التشغيل</button>
+  <label>السرعة: <b id="speedVal">1.3×</b><br><input type="range" id="speed" min="0.6" max="1.4" step="0.1" value="1.3" style="width:220px"></label>
+  <label><input type="checkbox" id="slow"> عرض بطيء جداً (للمراجعة)</label>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const C = 512, R = 320, REST = -45; // ball resting angle (deg, screen coords)
+const en = $('#en');
+'APEX PADEL'.split('').forEach(ch => { const s = document.createElement('span'); s.textContent = ch === ' ' ? ' ' : ch; en.appendChild(s); });
+
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+const easeIn = t => t * t * t;
+const spring = t => 1 - Math.exp(-6 * t) * Math.cos(10 * t); // overshoot
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+
+function setBall(x, y, o = 1, s = 1) {
+  $('#ball').setAttribute('transform', `translate(${x} ${y}) scale(${s})`);
+  $('#ball').setAttribute('opacity', o);
+}
+
+let start = 0, raf = 0;
+// Timeline (seconds). One table so the pace is easy to tune.
+const TL = {
+  draw:    [0.00, 0.80],  // court lines + orbit ring draw
+  rise:    [0.35, 1.20],  // racket springs up
+  holes:   [0.70, 0.045], // start, stagger per hole
+  drop:    [1.10, 1.65],  // ball falls onto the racket
+  swing:   [1.58, 1.95],  // racket hit
+  launch:  [1.65, 2.15],  // ball flies to the ring
+  orbit:   [2.15, 4.15],  // ball travels the ring (~1.4 laps) and settles
+  apex:    [3.35, 3.95],  // A chevron slams in as the ball passes the top
+  trailOut:[3.90, 4.35],
+  word:    [4.05, 0.045], // start, stagger per letter
+  ar:      [4.45, 4.85],
+  zoom:    [5.30, 5.90],  // zoom-through
+  home:    [5.50, 6.10],
+};
+const END = 6.4;
+const easeOutQuad = t => 1 - (1 - t) * (1 - t);
+
+function frame(now) {
+  const rate = $('#slow').checked ? 0.25 : parseFloat($('#speed').value);
+  const t = (now - start) / 1000 * rate; // seconds of timeline
+
+  const p1 = easeOut(seg(t, ...TL.draw));
+  $('#court').setAttribute('opacity', p1);
+  $('#orbit').setAttribute('stroke-dashoffset', 2011 * (1 - p1));
+
+  const p2 = seg(t, ...TL.rise);
+  const rise = (1 - spring(p2)) * 260;
+  const sw = seg(t, ...TL.swing);
+  const swing = sw > 0 ? -14 * Math.sin(sw * Math.PI) : 0;
+  $('#racket').setAttribute('opacity', clamp(p2 * 3));
+  $('#racket').style.transform = `translateY(${rise}px) rotate(${swing}deg)`;
+  [...$('#holes').children].forEach((h, i) => {
+    const s0 = TL.holes[0] + i * TL.holes[1];
+    const hp = spring(seg(t, s0, s0 + .35));
+    const cx = h.cx.baseVal.value, cy = h.cy.baseVal.value;
+    h.setAttribute('transform', `translate(${cx} ${cy}) scale(${hp}) translate(${-cx} ${-cy})`);
+  });
+
+  const hitX = 512, hitY = 640;
+  if (t < TL.launch[0]) {
+    const pd = easeIn(seg(t, ...TL.drop));
+    setBall(hitX, -60 + (hitY + 60) * pd, seg(t, TL.drop[0], TL.drop[0] + .12));
+  } else if (t < TL.orbit[0]) {
+    const pl = easeOut(seg(t, ...TL.launch));
+    const tx = C - R, ty = C;
+    setBall(hitX + (tx - hitX) * pl, hitY + (ty - hitY) * pl - Math.sin(pl * Math.PI) * 120, 1, 1 + .25 * Math.sin(pl * Math.PI));
+  } else {
+    // 180deg -> 2 laps - 45deg; softer ease so the ball glides instead of whipping round
+    const po = easeOutQuad(seg(t, ...TL.orbit));
+    const a0 = 180, a1 = 360 + 360 + REST;
+    const deg = a0 + (a1 - a0) * po;
+    const a = deg * Math.PI / 180;
+    setBall(C + R * Math.cos(a), C + R * Math.sin(a));
+    const CIRC = 2011, fade = 1 - seg(t, ...TL.trailOut);
+    const trailLen = CIRC * .22 * fade;
+    const head = deg / 360 * CIRC;
+    $('#trail').setAttribute('stroke-dasharray', `${trailLen} ${CIRC - trailLen}`);
+    $('#trail').setAttribute('stroke-dashoffset', -((((head - trailLen) % CIRC) + CIRC) % CIRC));
+    $('#trail').setAttribute('opacity', .9 * fade);
+  }
+  $('#ballGlow').setAttribute('opacity', .18 + .25 * Math.sin(seg(t, ...TL.launch) * Math.PI));
+  $('#flash').style.opacity = .9 * Math.sin(seg(t, TL.swing[0], TL.swing[0] + .35) * Math.PI);
+
+  const p5 = seg(t, ...TL.apex);
+  const sc = p5 > 0 ? 1.35 - .35 * spring(p5) : 1.35;
+  $('#apex').setAttribute('opacity', clamp(p5 * 2.5));
+  $('#apex').style.transform = `translateY(${(1 - easeOut(p5)) * -70}px) scale(${sc})`;
+
+  [...en.children].forEach((s, i) => {
+    const s0 = TL.word[0] + i * TL.word[1];
+    const lp = easeOut(seg(t, s0, s0 + .35));
+    s.style.opacity = lp; s.style.transform = `translateY(${(1 - lp) * 14}px)`;
+  });
+  const ap = easeOut(seg(t, ...TL.ar));
+  $('#ar').style.opacity = ap; $('#ar').style.transform = `translateY(${(1 - ap) * 10}px)`;
+
+  const pz = easeIn(seg(t, ...TL.zoom));
+  $('#stage').style.transform = `scale(${1 + pz * 7})`;
+  $('#stage').style.transformOrigin = '50% 52%';
+  $('#stage').style.opacity = 1 - seg(t, TL.zoom[0] + .15, TL.zoom[1]);
+  const ph = easeOut(seg(t, ...TL.home));
+  $('#home').style.opacity = ph; $('#home').style.transform = `scale(${1.08 - .08 * ph})`;
+
+  if (t < END) raf = requestAnimationFrame(frame);
+}
+function play() { cancelAnimationFrame(raf); start = performance.now(); raf = requestAnimationFrame(frame); }
+$('#replay').onclick = play;
+$('#speed').oninput = e => { $('#speedVal').textContent = parseFloat(e.target.value).toFixed(1) + '×'; play(); };
+const frozen = new URLSearchParams(location.search).get('t');
+if (frozen !== null) { start = 0; frame(parseFloat(frozen) * 1000); cancelAnimationFrame(raf); } else play();
+</script>
+</body>
+</html>
