@@ -22,7 +22,7 @@ export function CitySheet({ open, city, onSelect, onClose }: Props) {
 
   return (
     <Sheet open={open} onClose={onClose}>
-      <AppText weight="bold" tone="strong" className="mb-4 text-xl">
+      <AppText weight="bold" tone="strong" className="text-xl" style={{ marginBottom: 16 }}>
         {s.home.chooseCity}
       </AppText>
       <View className="gap-2">

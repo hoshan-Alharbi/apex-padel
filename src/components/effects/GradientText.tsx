@@ -1,4 +1,6 @@
-import { Text, type TextStyle } from 'react-native';
+import { StyleSheet, Text, type TextStyle } from 'react-native';
+
+import { arabicDescentRoom } from '@/lib/arabicDescent';
 
 type Props = {
   children: string;
@@ -54,7 +56,7 @@ export function GradientText({ children, style, colors }: Props) {
   }, []);
 
   return (
-    <Text style={style} accessibilityLabel={children}>
+    <Text style={[style, arabicDescentRoom(StyleSheet.flatten(style) ?? {}, ARABIC.test(children))]} accessibilityLabel={children}>
       {runs.map(({ text, start }, i) => {
         const mid = (start + (Array.from(text).length - 1) / 2) / total;
         return (

@@ -36,7 +36,7 @@ export function DemoSheet({ open, onClose }: { open: boolean; onClose: () => voi
       </View>
 
       {live.length === 0 ? (
-        <AppText variant="body" tone="muted" align="center" className="py-6">
+        <AppText variant="body" tone="muted" align="center" style={{ paddingVertical: 24 }}>
           {s.account.demoEmpty}
         </AppText>
       ) : (

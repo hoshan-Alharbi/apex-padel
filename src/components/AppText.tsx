@@ -1,6 +1,7 @@
-import { Text, type TextProps } from 'react-native';
+import { StyleSheet, Text, type TextProps } from 'react-native';
 
 import { useI18n } from '@/i18n';
+import { arabicDescentRoom } from '@/lib/arabicDescent';
 import { TYPE, type TypeVariant } from '@/theme/typography';
 
 const WEIGHT = {
@@ -27,6 +28,7 @@ const TONE = {
 } as const;
 
 // RN maps 'left' to the start edge and 'right' to the end edge under RTL.
+
 const ALIGN = { start: 'left', center: 'center', end: 'right' } as const;
 
 export type AppTextProps = TextProps & {
@@ -57,6 +59,8 @@ export function AppText({
   const { lang } = useI18n();
   const type = variant ? TYPE[variant] : undefined;
   const latin = lang === 'en';
+  // Keeps the dots of a final ي from being clipped on Android (see lib/arabicDescent).
+  const descentRoom = arabicDescentRoom(StyleSheet.flatten(style) ?? {}, !latin, type?.fontSize);
 
   return (
     <Text
@@ -70,6 +74,7 @@ export function AppText({
         },
         latin && uppercase && { textTransform: 'uppercase' },
         style,
+        descentRoom,
       ]}
       {...rest}
     />

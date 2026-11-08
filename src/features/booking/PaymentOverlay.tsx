@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, StyleSheet, View } from 'react-native';
-import Animated, { Easing, FadeIn, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
+import Animated, { Easing, FadeIn, ZoomIn } from 'react-native-reanimated';
 
 import { AppText } from '@/components/AppText';
 import { DrawnCheck } from '@/components/effects/DrawnCheck';
@@ -25,48 +24,35 @@ type Props = { open: boolean; method: PaymentMethod; amount: number; onDone: () 
 export function PaymentOverlay({ open, method, amount, onDone }: Props) {
   const { s } = useI18n();
   const [phase, setPhase] = useState<'processing' | 'paid'>('processing');
-  // Stays mounted after `open` turns false until the fade-out finishes.
-  const [mounted, setMounted] = useState(open);
+  // Each opening starts again at "processing" (state adjusted during render, not in an effect).
   const [wasOpen, setWasOpen] = useState(open);
   if (open !== wasOpen) {
     setWasOpen(open);
-    if (open) {
-      setMounted(true);
-      setPhase('processing');
-    }
+    if (open) setPhase('processing');
   }
 
-  const shown = useSharedValue(0);
   useEffect(() => {
-    if (open) {
-      shown.set(withTiming(1, { duration: FADE_MS, easing: Easing.out(Easing.cubic) }));
-      const t1 = setTimeout(() => {
-        setPhase('paid');
-        haptics.success();
-      }, PROCESSING_MS);
-      const t2 = setTimeout(onDone, PROCESSING_MS + SUCCESS_HOLD_MS);
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
-    }
-    shown.set(
-      withTiming(0, { duration: FADE_MS }, (done) => {
-        if (done) scheduleOnRN(setMounted, false);
-      }),
-    );
+    if (!open) return;
+    const t1 = setTimeout(() => {
+      setPhase('paid');
+      haptics.success();
+    }, PROCESSING_MS);
+    const t2 = setTimeout(onDone, PROCESSING_MS + SUCCESS_HOLD_MS);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- runs per opening
   }, [open]);
 
-  const backdrop = useAnimatedStyle(() => ({ opacity: shown.value }));
-  const card = useAnimatedStyle(() => ({ opacity: shown.value, transform: [{ scale: 0.94 + 0.06 * shown.value }] }));
-
-  if (!mounted) return null;
+  // Entering animations (not a shared value): they belong to the views, so they still run when
+  // the Modal's content mounts a frame later on Android.
+  if (!open) return null;
   return (
     <Modal transparent visible statusBarTranslucent navigationBarTranslucent animationType="none" onRequestClose={() => {}}>
-      <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, backdrop]} />
+      <Animated.View entering={FadeIn.duration(FADE_MS)} style={[StyleSheet.absoluteFill, styles.backdrop]} />
       <View style={styles.center} pointerEvents="box-none">
-        <Animated.View style={[styles.card, card]}>
+        <Animated.View entering={ZoomIn.duration(260).easing(Easing.out(Easing.cubic))} style={styles.card}>
           <View style={styles.icon}>{phase === 'processing' ? <ActivityIndicator size="large" color={colors.volt.DEFAULT} /> : <DrawnCheck size={72} />}</View>
           <Animated.View key={phase} entering={FadeIn.duration(180)} className="items-center gap-1">
             <AppText variant="headline" weight="bold" tone="strong" align="center">
