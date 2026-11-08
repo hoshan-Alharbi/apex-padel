@@ -3,34 +3,68 @@
 **آخر تحديث:** 2026-11-08
 
 ## الحالة الحالية
-- المواصفات: [project-spec.md](project-spec.md)، الخطة: [development-plan.md](development-plan.md).
-- آخر مهمة: الجزء **0.1** (إنشاء مشروع Expo SDK 58 + expo-router) — `Awaiting User Testing`.
+- المواصفات: [project-spec.md](project-spec.md)، الخطة: [development-plan.md](development-plan.md)، الهوية: [design-system.md](design-system.md).
+- **آخر مهمة (طلب صاحب المشروع):** إكمال كل الـ Features الباقية دفعة وحدة بنفس ستايل Stitch: تفاصيل النادي، الحجز، الدفع، التذكرة، تقسيم الفاتورة (متابعة + صفحة الشريك + وضع العرض)، حجوزاتي، المفضلة، حسابي. **كلها منفّذة وبانتظار اختبار صاحب المشروع.**
+  - الريفرنس المطابق: `club_details_court_view` ← `club/[id]`، `slot_booking_match_setup` ← `book/[clubId]`، `checkout_match_pass` ← `booking/[id]`.
+  - انحرافات مقصودة عن الريفرنس: بدون "Resident Pro Coach" و"Match Style" (مو في المواصفات)، وبدون أسعار ذروة لكل فترة (التسعير حسب المدة فقط). زر Instagram صار "مشاركة". تبديل التقسيم في الدفع (حسب الخطة 4.2) مو في شاشة الحجز.
+- **تعديلات بعد ملاحظات صاحب المشروع (نفس اليوم):**
+  - الحركة: شلت حركات الـ spring من القوائم (`LinearTransition.springify`) لأنها كانت تهز الكروت وقت الانتقال بين التابات. الرئيسية صارت `LinearTransition.duration(220)`، والمفضلة وحجوزاتي ظهور تدريجي (fade) سريع، ومؤشر "القادمة/السابقة" بـ `withTiming` 200ms بدل spring.
+  - التاريخ: الشريط الأفقي صار تقويم أسبوعي (`features/booking/DatePicker.tsx`)، الأحد أول الأسبوع، كل الـ 14 يوم ظاهرة، نقطة لليوم اللي فيه أوقات، وتحت التقويم التاريخ المختار وعدد الأوقات المتاحة.
+  - `BottomBar` يقيس طوله (`useBottomBarSpace`)، والشاشات تترك مساحة بنفس الطول، فآخر عنصر ما يتغطى.
+  - "/ 60 د" في شريط تفاصيل النادي صار أكبر وأوضح.
+- **الدفعة الثانية من الملاحظات:**
+  - علامة شريط التابات كانت مزاحة (عرض الصف ينحسب مع الحشوة الجانبية) — صُلحت في `TabBar.tsx` (`ROW_PAD`). حركة العلامة والأيقونة صارت `withTiming` 240ms بدون spring.
+  - "محدد" في الأوقات: `ZoomIn.springify` (كان يرج) ← `FadeIn` 160ms، والضغطة 0.98.
+  - `PrimaryButton` الخط أصغر (15)، ونسخة `compact` لزر "اختر الوقت واحجز".
+  - بوابة الدفع صارت نافذة في نص الشاشة (`PaymentOverlay.tsx`) بدل Sheet من تحت: تحميل ← علامة صح. `GatewaySheet.tsx` حُذف.
+  - ملخص الدفع للحجز المدفوع جزئياً يكتب "الإجمالي" بدل "المدفوع".
+- **الأوبننج:** معتمد (الشعار يتركّب، `PACE = 1.5` ≈ 2.4 ث).
+- الرئيسية: البانر صار يقرأ أقرب حجز فعّال من الحالة (`state/bookings`) بدل البيانات الثابتة، وزر "التفاصيل" يفتح التذكرة. الكروت تفتح تفاصيل النادي و"احجز موعد" يفتح الحجز.
 
 ## Features حسب الحالة
-- **Awaiting User Testing:** 0.1
-- **Approved / Blocked:** لا يوجد.
-- **باقي الأجزاء:** `Planned`.
+- **Approved:** 0.1، 0.2، 1.3
+- **Awaiting User Testing:** 0.3، 1.1، 1.2، 2.1–2.3، 3.1–3.5، 4.1–4.5، 5.1، 5.2 (بدون تبديل اللغة)
+- **جزئي:** 0.4 (زر تبديل اللغة داخل التطبيق لم يُبنَ — انظر المشاكل)، 0.5 (مولّد الأوقات صار موجود في `features/booking/slots.ts`)
+- **Planned:** 6.1 (مراجعة كاملة للإنجليزي + الأداء)، 6.2 (README، MIT، Dockerfile)
 
 ## Git
-- Branch: `feature/foundation`
-- `main` فيه commit التوثيق فقط.
-- `ref/` غير مضاف للـ Git (بانتظار قرار صاحب المشروع: يُرفع أو يُتجاهل).
-- `git config user.name` في الجهاز = "اسمك" (قيمة افتراضية) — بانتظار قرار قبل أي push.
+- **قرار صاحب المشروع:** لا commit ولا push حتى ينتهي التصميم.
+- Branch: `feature/foundation`، آخر commit (قبل القرار): `7778493`. كل العمل بعده غير مُثبت.
+- `ref/` غير مضاف للـ Git. `git config user.name` = "اسمك" — يُصحح قبل أي رفع.
 
 ## الملفات في آخر جلسة
-`package.json`, `app.json`, `tsconfig.json`, `.gitignore`, `eslint.config.js`, `src/app/_layout.tsx`, `src/app/index.tsx`, `AGENTS.md` (من قالب Expo), `.claude/settings.json` (من قالب Expo).
+- **جديد:** `src/app/{club/[id],book/[clubId],booking/[id],checkout,split/[id],pay/[bookingId]/[shareId]}.tsx`، `src/features/clubs/details/*`، `src/features/booking/*`، `src/features/bookings/*`، `src/features/favorites/FavoritesScreen.tsx`، `src/features/account/*`، `src/features/splash/LogoMark.tsx`، `src/state/{bookings,bookingsSeed}.tsx/ts`، `src/lib/{format,useNow}.ts`، `src/components/{ScreenHeader,TabScreen,PrimaryButton,BottomBar,IconButton,Sheet,Toggle,SectionTitle,EmptyState,AnimatedNumber}.tsx`، `src/components/effects/DrawnCheck.tsx`، `src/i18n/{ar,en}.ts`.
+- **معدّل:** `data/types.ts` و`data/clubs.ts` (عنوان، هاتف وهمي 555، مرافق، مواصفات، آراء)، `i18n/strings.ts` (صار يجمع `ar.ts` و`en.ts`)، `HomeScreen`، `NextBookingBanner`، `CitySheet` (يستخدم `Sheet` المشترك)، `_layout.tsx` (`BookingsProvider`).
+- **محذوف:** `data/bookings.ts` (انتقل لـ `state/bookingsSeed.ts`)، `components/ComingSoon.tsx` (ما عاد مستخدم).
 
 ## آخر نتائج اختبار
-- `tsc --noEmit`: ناجح.
-- `expo lint`: ناجح.
-- `expo-doctor`: 20/20.
-- تشغيل فعلي على محاكي `Pixel_9_Pro_XL` بـ Expo Go: الشاشة المؤقتة تظهر.
+- `tsc` ✓، `expo lint` ✓ (0 مشاكل)، `jest` 27/27 ✓ (تنسيق التاريخ، الأوقات، التسعير، التقسيم).
+- محاكي Android (dev، عربي) — مسارات مجرّبة فعلياً:
+  - الرئيسية ← تفاصيل النادي (Parallax + الهيدر يتحول) ← الحجز ← اختيار وقت وإضافات (الإجمالي يتحدث) ← الدفع بتقسيم 4 لاعبين ← البوابة ← التذكرة "بانتظار الشركاء".
+  - متابعة التقسيم ← معاينة صفحة الشريك ← دفع حصته ← تحدّث الحالة والمتبقي.
+  - وضع العرض (ضغطة مطولة على الشعار في حسابي) ← "العدّاد ينتهي بعد 10 ثواني" ← الحجز صار "ملغي ومسترجع" في السابقة.
+  - "الدفع في الملعب" ← "بانتظار التأكيد" ← مؤكد تلقائياً بعد 8 ث.
+  - الإنجليزي (LTR): تفاصيل النادي والحجز مرتبة.
+- **ملاحظة:** بعد Fast Refresh على أندرويد أحياناً تنقص آخر كلمة من عنوان (مثل "آخر الليل" ← "آخر"). يختفي بإعادة التشغيل الكاملة؛ مو مشكلة في التطبيق.
 
-## التشغيل
-- `ANDROID_HOME` غير مضبوط في الجهاز. يُمرَّر داخل الأمر: `ANDROID_HOME="$LOCALAPPDATA/Android/Sdk" npx expo start --android`.
+## التشغيل والاختبار (مهم)
+- `ANDROID_HOME="$LOCALAPPDATA/Android/Sdk" npx expo start` ثم فتح `exp://127.0.0.1:<port>` في Expo Go (مع `adb reverse tcp:<port> tcp:<port>`).
+- **تبديل لغة Expo Go على المحاكي:** `adb shell cmd locale set-app-locales host.exp.exponent --locales ar-SA` (أو `en-US`) ثم إعادة تشغيل Expo Go. يحتاج `expo.extra.supportsRTL: true` في `app.json` (موجود).
+- بعد تغيير babel/metro/tailwind: `--clear` + force-stop لـ Expo Go.
+- الحالة (الحجوزات، المفضلة) في الذاكرة فقط: إعادة التشغيل ترجعها للبيانات الأولية.
 
 ## المشاكل المفتوحة
-- وجهة الاسترجاع التلقائي (بنك أو رصيد داخل التطبيق): تُقرر لاحقاً.
+- **تبديل اللغة داخل التطبيق:** `forceRTL` + إعادة تحميل لا يعمل في Expo Go. الحلول: Development Build، أو تبديل فوري يدوي للاتجاه. يحتاج قرار. صف "اللغة" في حسابي يعرض اللغة الحالية فقط.
+- **تخطي الأوبننج:** ضغطة تتخطى دائماً. "يعرض مرة وحدة فقط" يحتاج `@react-native-async-storage/async-storage` — بانتظار قرار.
+- **مكتبات غير مستخدمة:** `expo-gl`، `three`، `@types/three` — حذفها بانتظار موافقة.
+- **أيقونة التطبيق** من `ref/logo.png` (جزء من 1.3) لم تُحدّث بعد — `assets/icon.png` لسا الافتراضية.
+- **الـ glow بـ `FeGaussianBlur`:** يشتغل على أندرويد. iOS ما انختبر.
+- **رمز الدخول في التذكرة شكلي** (يشبه QR وما ينقرأ) — مقصود في نسخة UI فقط.
+- **خطوط Sora + Plus Jakarta Sans** للإنجليزي — بانتظار موافقة.
+- NativeWind 4.2.7 يعلن دعم SDK 57 رسمياً؛ يعمل على 58.
+- وجهة الاسترجاع التلقائي: تُقرر لاحقاً.
+- Expo Go يخزّن bundle الـ production: بعد `--no-dev` لازم `adb shell pm clear host.exp.exponent`.
 
 ## الخطوة التالية
-- بعد موافقة صاحب المشروع على 0.1: الجزء **0.2** (NativeWind + Design tokens + `design-system.md`).
+- اختبار صاحب المشروع لكل الشاشات الجديدة (الخطوات في آخر تقرير).
+- بعدها: Phase 6 (مراجعة الإنجليزي والأداء، README، MIT، Dockerfile، أيقونة التطبيق).

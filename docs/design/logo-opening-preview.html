@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo Opening Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0E131D; --surface:#1A1F2A; --surface-low:#161B26; --volt:#CAF300; --ink:#DEE2F1; --muted:#8E9379; --line:rgba(255,255,255,.08); }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; gap:28px; align-items:center; justify-content:center; flex-wrap:wrap;
+         background:#05070b; font-family:'Readex Pro',sans-serif; color:var(--ink); padding:16px; }
+  body.solo { padding:0; background:var(--bg); }
+  body.solo #mount { position:fixed; left:0; top:0; }
+  body.solo .phone { border-radius:0; box-shadow:none; }
+
+  .phone { width:360px; height:780px; border-radius:44px; background:var(--bg); position:relative; overflow:hidden; flex:none;
+           box-shadow:0 0 0 10px #1b202a, 0 30px 80px rgba(0,0,0,.6); cursor:pointer; user-select:none; }
+
+  /* ---------- home (simplified, matches the approved header) ---------- */
+  .home { position:absolute; inset:0; opacity:0; background:var(--bg); }
+  .home .hdr { position:absolute; top:0; left:0; right:0; padding-top:40px; background:rgba(14,19,29,.9);
+               border-bottom:1px solid rgba(68,73,50,.3); }
+  .home .row { height:56px; padding:0 16px; display:flex; align-items:center; justify-content:space-between; }
+  .home .loc { display:flex; align-items:center; gap:6px; }
+  .home .slot { width:22px; height:24px; display:flex; align-items:center; justify-content:center; position:relative; }
+  .home .slot > * { position:absolute; }
+  .home .brand { font-size:12px; color:var(--muted); line-height:15px; }
+  .home .city { font-size:17px; font-weight:700; }
+  .home .city i { font-style:normal; color:#c4c9ac; font-size:11px; margin-inline-start:4px; }
+  .home .acts { display:flex; gap:10px; align-items:center; }
+  .home .bell { width:36px; height:36px; border-radius:50%; background:var(--surface); display:flex; align-items:center; justify-content:center; position:relative; }
+  .home .bell::after { content:''; position:absolute; top:6px; inset-inline-end:6px; width:8px; height:8px; border-radius:50%; background:var(--volt); border:2px solid var(--bg); }
+  .home .ava { width:36px; height:36px; border-radius:50%; border:2px solid rgba(202,243,0,.4); padding:2px; }
+  .home .ava b { display:flex; width:100%; height:100%; border-radius:50%; background:#30353f; color:var(--volt); align-items:center; justify-content:center; font-size:14px; }
+  .home main { padding:112px 16px 0; }
+  .home .hi { display:inline-flex; gap:6px; align-items:center; font-size:12px; background:var(--surface-low); border:1px solid var(--line); border-radius:99px; padding:4px 10px; }
+  .home .hi::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--volt); }
+  .home h1 { font-size:28px; line-height:1.25; margin:10px 0 16px; }
+  .home h1 b { color:var(--volt); }
+  .home .search { height:48px; border-radius:8px; background:#090e18; border:1px solid var(--line); margin-bottom:14px; }
+  .home .chips { display:flex; gap:8px; margin-bottom:16px; }
+  .home .chips span { height:36px; border-radius:99px; background:var(--surface-low); border:1px solid var(--line); flex:1; }
+  .home .chips span:first-child { background:var(--volt); flex:.6; }
+  .home .card { height:170px; border-radius:16px; background:var(--surface); border:1px solid var(--line); margin-bottom:14px; }
+
+  /* ---------- stage ---------- */
+  .stage { position:absolute; left:30px; top:225px; width:300px; height:300px; transform-origin:50% 50%; will-change:transform; }
+  .stage svg { width:100%; height:100%; overflow:visible; display:block; }
+
+  /* ---------- panel ---------- */
+  .panel { max-width:360px; font-size:14px; line-height:1.9; }
+  .panel h2 { color:var(--volt); font-size:18px; margin:0 0 6px; }
+  .panel table { border-collapse:collapse; width:100%; margin-bottom:14px; font-size:13px; }
+  .panel td { padding:3px 6px; border-bottom:1px solid #1d2330; vertical-align:top; }
+  .panel td:first-child { font-family:'Space Mono',monospace; color:#9aa3b2; white-space:nowrap; direction:ltr; text-align:left; }
+  button { font-family:inherit; font-weight:700; font-size:15px; background:var(--volt); color:#0E131D; border:0; border-radius:12px; padding:10px 20px; cursor:pointer; }
+  label { display:block; margin-top:8px; color:#a8b0bd; }
+  .scrub { display:flex; gap:10px; align-items:center; direction:ltr; margin-top:10px; }
+  .scrub input { flex:1; }
+  .scrub output { font-family:'Space Mono',monospace; width:52px; color:var(--volt); }
+  .hap { display:inline-block; margin-top:10px; padding:5px 12px; border-radius:99px; border:1px solid #3a4150; color:#6b7380; font-size:12px; transition:none; }
+  .hap.on { background:var(--volt); color:#0E131D; border-color:var(--volt); }
+  .note { color:#8b93a0; font-size:12.5px; margin-top:12px; }
+
+  /* ---------- contact sheet ---------- */
+  body.sheet { padding:24px; background:#05070b; }
+  body.sheet #mount { display:flex; flex-wrap:wrap; justify-content:center; gap:20px 18px; max-width:820px; }
+  body.sheet .cell { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  body.sheet .cell .phone { zoom:.62; }
+  body.sheet .cell span { font-family:'Space Mono',monospace; color:var(--volt); font-size:15px; direction:ltr; }
+</style>
+</head>
+<body>
+
+<template id="phoneTpl">
+  <div class="phone">
+    <div class="home" dir="rtl">
+      <div class="hdr"><div class="row">
+        <div class="loc">
+          <div class="slot">
+            <svg class="pin" width="20" height="20" viewBox="0 0 24 24"><path fill="#CAF300" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            <svg class="mini" width="22" height="24" viewBox="176 176 672 736" style="display:none"><use href="#logoStatic"/></svg>
+          </div>
+          <div><div class="brand">أبكس بادل السعودية</div><div class="city">الرياض، السعودية<i>▾</i></div></div>
+        </div>
+        <div class="acts">
+          <div class="bell"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="#DEE2F1" stroke-width="1.8" d="M6 17V11a6 6 0 0 1 12 0v6l1.5 1.5h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></div>
+          <div class="ava"><b>ف</b></div>
+        </div>
+      </div></div>
+      <main>
+        <div class="hi">هلا، فهد</div>
+        <h1>اكتشف واحجز<br><b>ملعبك الجاي</b></h1>
+        <div class="search"></div>
+        <div class="chips"><span></span><span></span><span></span></div>
+        <div class="card"></div><div class="card"></div>
+      </main>
+    </div>
+
+    <div class="stage">
+      <svg viewBox="0 0 1024 1024">
+        <!-- court lines: four halves drawn from the centre outwards -->
+        <g class="court" stroke="#2A3240" stroke-width="4" fill="none">
+          <path class="cl" d="M512 512 H256"/><path class="cl" d="M512 512 H768"/>
+          <path class="cl" d="M512 512 V372"/><path class="cl" d="M512 512 V770"/>
+        </g>
+        <g class="courtDots" fill="#161C27" opacity="0">
+          <circle cx="512" cy="470" r="15"/><circle cx="472" cy="512" r="15"/><circle cx="552" cy="512" r="15"/>
+        </g>
+
+        <!-- orbit: revealed behind the ball as it laps -->
+        <circle class="orbit" cx="512" cy="512" r="320" fill="none" stroke="#232A37" stroke-width="5" transform="rotate(-43 512 512)"/>
+        <circle class="trail" cx="512" cy="512" r="320" fill="none" stroke="#D4FF00" stroke-width="7" stroke-linecap="round" opacity="0"/>
+
+        <!-- racket ring: one stroke -->
+        <path class="ring" d="M336 572 A188 188 0 1 0 688 572" fill="none" stroke="url(#gCyan)" stroke-width="26" stroke-linecap="round"/>
+        <!-- handle: slides up under the ring -->
+        <g class="handle">
+          <path d="M492 828 H532 L540 888 H484 Z" fill="url(#gVolt)"/>
+          <rect x="476" y="892" width="72" height="12" rx="6" fill="#9CA3AF"/>
+        </g>
+        <!-- dots (ordered top → bottom, centre → out: that's the stagger order) -->
+        <g class="dots">
+          <circle cx="512" cy="580" r="20" fill="#D4FF00"/>
+          <circle cx="448" cy="591" r="16" fill="#38BDF8"/><circle cx="576" cy="591" r="16" fill="#38BDF8"/>
+          <circle cx="392" cy="628" r="12" fill="#AFC72A"/><circle cx="632" cy="628" r="12" fill="#AFC72A"/>
+          <circle cx="480" cy="652" r="18" fill="#D4FF00"/><circle cx="544" cy="652" r="18" fill="#D4FF00"/>
+          <circle cx="512" cy="720" r="22" fill="#D4FF00"/>
+          <circle cx="452" cy="732" r="15" fill="#38BDF8"/><circle cx="572" cy="732" r="15" fill="#38BDF8"/>
+        </g>
+
+        <!-- A: rises out of the racket mouth (clipped below y=560) -->
+        <g clip-path="url(#aboveRing)">
+          <g class="apex">
+            <!-- glow = blurred copy of the A; its opacity carries the pulse (no per-frame filter changes) -->
+            <polygon class="glow" points="512,208 752,544 648,544 512,348 376,544 272,544" fill="#D4FF00" filter="url(#blurGlow)" opacity=".5"/>
+            <polygon points="512,208 752,544 648,544 512,348 376,544 272,544" fill="url(#gVolt)"/>
+            <polygon points="512,348 648,544 632,544 512,372 392,544 376,544" fill="#000" opacity=".18"/>
+          </g>
+        </g>
+
+        <!-- ball -->
+        <g class="ball" opacity="0">
+          <circle r="46" fill="#D4FF00" opacity=".16"/>
+          <g class="spin">
+            <circle r="28" fill="#D4FF00"/>
+            <path d="M-27 -2 Q0 -14 27 -2" fill="none" stroke="#0E131D" stroke-width="5" stroke-linecap="round"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</template>
+
+<!-- shared defs + the finished logo (used by the header mini logo) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gVolt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E2FF3D"/><stop offset="1" stop-color="#C2EF00"/></linearGradient>
+    <linearGradient id="gCyan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4CC9FA"/><stop offset="1" stop-color="#0A84C9"/></linearGradient>
+    <clipPath id="aboveRing" clipPathUnits="userSpaceOnUse"><rect x="0" y="0" width="1024" height="560"/></clipPath>
+    <filter id="blurGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16"/></filter>
+    <g id="logoStatic">
+      <circle cx="512" cy="512" r="320" fill="none" stroke="#2A3242" stroke-width="10"/>
+      <path d="M336 572 A188 188 0 1 0 688 572" fill="none" stroke="url(#gCyan)" stroke-width="34" stroke-linecap="round"/>
+      <path d="M492 828 H532 L540 888 H484 Z" fill="url(#gVolt)"/>
+      <circle cx="512" cy="600" r="24" fill="#D4FF00"/><circle cx="512" cy="700" r="26" fill="#D4FF00"/>
+      <circle cx="440" cy="650" r="20" fill="#38BDF8"/><circle cx="584" cy="650" r="20" fill="#38BDF8"/>
+      <polygon points="512,208 752,544 648,544 512,348 376,544 272,544" fill="url(#gVolt)"/>
+      <circle cx="744" cy="296" r="34" fill="#D4FF00"/>
+    </g>
+  </defs>
+</svg>
+
+<div id="mount"></div>
+
+<div class="panel" id="panel">
+  <h2>افتتاحية الشعار — 2.4 ثانية (السرعة 1.5×)</h2>
+  <table>
+    <tr><td>0.0–0.45</td><td>خطوط الملعب ترتسم من المركز للأطراف</td></tr>
+    <tr><td>0.27–0.9</td><td>حلقة المضرب ترسم نفسها بخط واحد، والمقبض ينزلق تحتها (spring)</td></tr>
+    <tr><td>0.63–1.35</td><td>النقاط بالتتابع كل 45ms، scale من 0 (spring)</td></tr>
+    <tr><td>1.05–1.5</td><td>حرف A يطلع من فم المضرب مع نبضة glow</td></tr>
+    <tr><td>1.2–2.1</td><td>الكورة تلف لفّة وترسم المدار وراها، وتستقر بنطة + Haptic Light</td></tr>
+    <tr><td>2.1–2.4</td><td>الشعار يصغر لمكانه في الهيدر، والرئيسية تظهر</td></tr>
+  </table>
+  <button id="replay">إعادة التشغيل</button>
+  <span class="hap" id="hap">Haptic · Light</span>
+  <div class="scrub"><input type="range" id="scrub" min="0" max="2.4" step="0.01" value="0"><output id="tOut">0.00s</output></div>
+  <label><input type="checkbox" id="slow"> عرض بطيء ×0.25 (للمراجعة)</label>
+  <label><input type="checkbox" id="reduce"> "تقليل الحركة" مفعّل</label>
+  <label><b>نهاية الشعار في الهيدر:</b></label>
+  <label><input type="radio" name="mode" value="melt" checked> يذوب في أيقونة الموقع (الهيدر المعتمد بدون تغيير)</label>
+  <label><input type="radio" name="mode" value="keep"> يبقى شعار صغير بدل أيقونة الموقع (تغيير على الهيدر)</label>
+  <div class="note">اضغط على الجوال أثناء الحركة للتخطي.</div>
+</div>
+
+<script>
+// ---------- easing ----------
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = u => 1 - Math.pow(1 - u, 3);
+const easeInOut = u => (u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+const easeInOutSine = u => -(Math.cos(Math.PI * u) - 1) / 2; // gentler peak speed than cubic (1.57× vs 3× average)
+const spring = u => (u <= 0 ? 0 : 1 - Math.exp(-6 * u) * Math.cos(10 * u));   // ~15% overshoot
+const springStiff = u => (u <= 0 ? 0 : 1 - Math.exp(-8 * u) * Math.cos(9 * u)); // ~6% overshoot
+
+// ---------- timeline (seconds) — the reference table for the RN implementation ----------
+const PACE = 1.5; // overall pace (1 = the original 1.6 s cut) — same constant as timeline.ts
+const sp = (...v) => v.map(x => x * PACE);
+const TL = {
+  court:  sp(0.00, 0.30),
+  ring:   sp(0.18, 0.52),
+  handle: sp(0.36, 0.60),
+  dots:   sp(0.42, 0.030, 0.22), // start, stagger, per-dot duration
+  apex:   sp(0.70, 1.00),
+  glow:   sp(0.80, 1.00),
+  lap:    sp(0.80, 1.30),        // ball laps the orbit
+  bounce: sp(1.30, 1.40),        // settle hop + haptic
+  exit:   sp(1.40, 1.60),
+};
+const END = TL.exit[1], HAPTIC_AT = TL.bounce[0], SKIP_TO = TL.exit[0];
+const REST = -43;              // ball resting angle in the logo (deg)
+const C = 512, R = 320, CIRC = 2 * Math.PI * R;
+const HOP = 40;                // bounce height (viewBox units)
+
+// Dash pattern for a dashed line that "draws" with strokeDashoffset: [dashes…, gap = L].
+function dashFor(L) {
+  const a = []; let s = 0;
+  while (s < L) { a.push(14, 12); s += 26; }
+  a.push(L);
+  return { arr: a.join(' '), P: s };
+}
+
+function build(phone) {
+  const q = s => phone.querySelector(s);
+  const el = {
+    phone, home: q('.home'), stage: q('.stage'), pin: q('.pin'), mini: q('.mini'), slot: q('.slot'),
+    court: [...phone.querySelectorAll('.cl')], courtDots: q('.courtDots'),
+    orbit: q('.orbit'), trail: q('.trail'), ring: q('.ring'), handle: q('.handle'),
+    dots: [...q('.dots').children], apex: q('.apex'), glow: q('.glow'),
+    ball: q('.ball'), spin: q('.spin'),
+  };
+  el.courtDash = el.court.map(p => { const L = p.getTotalLength(); const d = dashFor(L); p.setAttribute('stroke-dasharray', d.arr); return { L, P: d.P }; });
+  el.ringLen = el.ring.getTotalLength();
+  el.ring.setAttribute('stroke-dasharray', `${el.ringLen} ${el.ringLen}`);
+  el.orbit.setAttribute('stroke-dasharray', `${CIRC} ${CIRC}`);
+  return el;
+}
+
+// Where the stage must go so the logo's centre lands on the header slot.
+function exitTarget(el) {
+  const p = el.phone.getBoundingClientRect(), z = p.width / el.phone.offsetWidth;
+  const s = el.slot.getBoundingClientRect();
+  const slotX = (s.left - p.left) / z + 11, slotY = (s.top - p.top) / z + 12;
+  const W = el.stage.offsetWidth, k = W / 1024;
+  const cx = el.stage.offsetLeft + W / 2, cy = el.stage.offsetTop + W / 2;
+  const scale = 22 / (672 * k);              // header logo is 22px wide (viewBox 672 units)
+  return { dx: slotX - cx, dy: slotY - cy - scale * 32 * k, scale }; // content centre is 32 units below the svg centre
+}
+
+function render(el, t, opt) {
+  const { mode, reduce } = opt;
+  if (reduce) t = t < 0.6 ? 1.399 : END; // static logo, then straight to home
+
+  // 1) court lines, centre → out
+  const pc = easeOut(seg(t, ...TL.court));
+  el.court.forEach((p, i) => p.setAttribute('stroke-dashoffset', el.courtDash[i].P - pc * el.courtDash[i].L));
+  el.courtDots.setAttribute('opacity', seg(t, 0.2, 0.4));
+
+  // 2) ring draws as one stroke, handle slides in
+  const pr = easeInOut(seg(t, ...TL.ring));
+  el.ring.setAttribute('stroke-dashoffset', el.ringLen * (1 - pr));
+  el.ring.setAttribute('opacity', pr > 0 ? 1 : 0);
+  const ph = seg(t, ...TL.handle);
+  el.handle.setAttribute('transform', `translate(0 ${(1 - spring(ph)) * 70})`);
+  el.handle.setAttribute('opacity', clamp(ph * 3));
+
+  // 3) dots pop in, staggered
+  el.dots.forEach((d, i) => {
+    const s0 = TL.dots[0] + i * TL.dots[1];
+    const sc = spring(seg(t, s0, s0 + TL.dots[2]));
+    const cx = d.cx.baseVal.value, cy = d.cy.baseVal.value;
+    d.setAttribute('transform', `translate(${cx} ${cy}) scale(${sc}) translate(${-cx} ${-cy})`);
+  });
+
+  // 4) A rises out of the racket mouth + glow pulse
+  const pa = seg(t, ...TL.apex);
+  el.apex.setAttribute('transform', `translate(0 ${(1 - springStiff(pa)) * 360})`);
+  el.apex.setAttribute('opacity', clamp(pa * 4));
+  el.glow.setAttribute('opacity', 0.5 + 0.5 * Math.sin(Math.PI * seg(t, ...TL.glow))); // rests at the logo's .5
+
+  // 5) ball laps the orbit (drawing it), then settles with a hop
+  const pl = seg(t, ...TL.lap);
+  if (t < TL.lap[0]) {
+    el.ball.setAttribute('opacity', 0);
+    el.orbit.setAttribute('stroke-dashoffset', CIRC);
+    el.trail.setAttribute('opacity', 0);
+  } else {
+    const swept = 360 * easeInOutSine(pl);       // degrees travelled from the rest point
+    const deg = REST + swept;
+    const ub = seg(t, ...TL.bounce);
+    const hop = t >= TL.bounce[0] ? HOP * Math.exp(-3 * ub) * Math.abs(Math.sin(2 * Math.PI * ub)) : 0;
+    const a = deg * Math.PI / 180, r = R + hop;
+    const pop = easeOut(seg(t, TL.lap[0], TL.lap[0] + 0.06));
+    el.ball.setAttribute('transform', `translate(${C + r * Math.cos(a)} ${C + r * Math.sin(a)}) scale(${pop})`);
+    el.ball.setAttribute('opacity', 1);
+    el.spin.setAttribute('transform', `rotate(${(swept - 360) * 1.5})`);
+    // orbit is revealed behind the ball (circle starts at REST thanks to rotate(-43))
+    el.orbit.setAttribute('stroke-dashoffset', CIRC * (1 - swept / 360));
+    // short volt comet tail that fades once the ball lands
+    const fade = 1 - seg(t, TL.bounce[0] - 0.04, TL.bounce[1]);
+    const len = Math.min(CIRC * 0.2, CIRC * swept / 360) * fade;
+    const head = ((deg % 360) + 360) % 360 / 360 * CIRC;
+    el.trail.setAttribute('stroke-dasharray', `${len} ${CIRC - len}`);
+    el.trail.setAttribute('stroke-dashoffset', -(((head - len) % CIRC) + CIRC) % CIRC);
+    el.trail.setAttribute('opacity', 0.9 * fade);
+  }
+
+  // 6) exit: shrink into the header, home fades in
+  const pe = easeInOut(seg(t, ...TL.exit));
+  const tg = exitTarget(el);
+  el.stage.style.transform = `translate(${tg.dx * pe}px, ${tg.dy * pe}px) scale(${1 + (tg.scale - 1) * pe})`;
+  el.home.style.opacity = easeInOut(seg(t, TL.exit[0], TL.exit[1]));
+  const keep = mode === 'keep';
+  el.mini.style.display = keep ? '' : 'none';
+  el.mini.style.opacity = t >= END ? 1 : 0;
+  el.pin.style.opacity = keep ? 0 : seg(t, END - 0.07, END);
+  el.stage.style.opacity = t >= END ? 0 : keep ? 1 : 1 - seg(t, END - 0.07, END);
+}
+
+// ---------- page modes ----------
+const params = new URLSearchParams(location.search);
+const mount = document.getElementById('mount');
+const tpl = document.getElementById('phoneTpl');
+const mkPhone = parent => { parent.appendChild(tpl.content.cloneNode(true)); return build(parent.lastElementChild); };
+const optFromUrl = () => ({ mode: params.get('mode') || 'melt', reduce: params.has('reduce') });
+
+if (params.has('sheet')) {
+  // contact sheet: the review frames side by side
+  document.body.classList.add('sheet');
+  document.getElementById('panel').remove();
+  const times = (params.get('sheet') || [0.2,0.5,0.8,1.1,1.3,1.6].map(v => +(v * PACE).toFixed(2)).join(',')).split(',').map(Number);
+  times.forEach(t => {
+    const cell = document.createElement('div'); cell.className = 'cell';
+    mount.appendChild(cell);
+    const el = mkPhone(cell);
+    const lab = document.createElement('span'); lab.textContent = t + 's'; cell.appendChild(lab);
+    render(el, t, optFromUrl());
+  });
+} else if (params.has('t')) {
+  // single frozen frame (for screenshots)
+  document.body.classList.add('solo');
+  document.getElementById('panel').remove();
+  render(mkPhone(mount), parseFloat(params.get('t')), optFromUrl());
+} else {
+  mount.style.display = 'contents';
+  const el = mkPhone(mount);
+  const $ = s => document.querySelector(s);
+  const opt = () => ({ mode: document.querySelector('input[name=mode]:checked').value, reduce: $('#reduce').checked });
+  let raf = 0, start = 0, offset = 0;
+  const show = t => {
+    render(el, t, opt());
+    $('#scrub').value = t; $('#tOut').textContent = t.toFixed(2) + 's';
+    $('#hap').classList.toggle('on', !opt().reduce && t >= HAPTIC_AT && t < HAPTIC_AT + 0.25);
+  };
+  const tick = now => {
+    const rate = $('#slow').checked ? 0.25 : 1;
+    const t = Math.min(END, offset + (now - start) / 1000 * rate);
+    show(t);
+    if (t < END) raf = requestAnimationFrame(tick);
+  };
+  const play = (from = 0) => { cancelAnimationFrame(raf); offset = from; start = performance.now(); raf = requestAnimationFrame(tick); };
+  $('#replay').onclick = () => play(0);
+  el.phone.onclick = () => { const t = parseFloat($('#scrub').value); if (t < SKIP_TO) play(SKIP_TO); };
+  $('#scrub').oninput = e => { cancelAnimationFrame(raf); show(parseFloat(e.target.value)); };
+  ['#reduce', '#slow'].forEach(s => $(s).onchange = () => play(0));
+  document.querySelectorAll('input[name=mode]').forEach(r => r.onchange = () => play(0));
+  play(0);
+}
+</script>
+</body>
+</html>
