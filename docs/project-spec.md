@@ -160,10 +160,10 @@ css tailwind
 
 ## Initial Architecture
 ```
-app/                  ← expo-router (الشاشات والـ Routing فقط)
-  _layout.tsx         ← الخطوط، RTL، Splash، Providers، Root Stack
-  (tabs)/_layout.tsx  ← Tabs + TabBar المخصص
 src/
+  app/                ← expo-router (الشاشات والـ Routing فقط — موقعه الافتراضي في SDK 58)
+    _layout.tsx       ← الخطوط، RTL، Splash، Providers، Root Stack
+    (tabs)/_layout.tsx← Tabs + TabBar المخصص
   features/
     clubs/            ← كروت الأندية، الفلاتر، تفاصيل النادي
     booking/          ← منطق التسعير، اختيار الوقت، الإضافات، الدفع

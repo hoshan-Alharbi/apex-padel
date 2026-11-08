@@ -22,7 +22,7 @@ Branch: `feature/foundation`
 
 | # | الجزء | Dependencies | Acceptance Criteria | الحالة |
 |---|---|---|---|---|
-| 0.1 | إنشاء مشروع Expo SDK 58 (TypeScript + expo-router)، `git init`، `.gitignore` | — | التطبيق يفتح على محاكي Android بشاشة مؤقتة. `tsc` و `lint` بدون أخطاء | Planned |
+| 0.1 | إنشاء مشروع Expo SDK 58 (TypeScript + expo-router)، `git init`، `.gitignore` | — | التطبيق يفتح على محاكي Android بشاشة مؤقتة. `tsc` و `lint` بدون أخطاء | Awaiting User Testing |
 | 0.2 | NativeWind 4 + Tailwind 3.4 + Design tokens من الريفرنس + `docs/design-system.md` | 0.1 | شاشة تجريبية تعرض الألوان والـ radii بكلاسات Tailwind، ومطابقة للريفرنس | Planned |
 | 0.3 | الخطوط (Readex Pro, Space Mono) مع إبقاء Splash النظام حتى التحميل | 0.2 | النص العربي والإنجليزي بـ Readex Pro، والأرقام بـ Space Mono، بدون وميض خط افتراضي | Planned |
 | 0.4 | نظام اللغتين: قاموس `ar`/`en`، `t()`، Language Context، RTL عبر `I18nManager`، إعادة التحميل بـ `expo-updates`، العربي افتراضي | 0.3 | زر تجريبي يبدّل اللغة: يعيد تحميل التطبيق ويقلب الاتجاه والنصوص. الاختيار يبقى بعد إعادة التحميل | Planned |
@@ -87,4 +87,4 @@ Branch: `feature/polish-release`
 ---
 
 ## ملاحظة: الاختبارات الآلية
-منطق التسعير والتقسيم أهم جزء يحتاج اختبار آلي، خصوصاً أن مجموع الحصص لازم يساوي الإجمالي بالضبط. هذا يحتاج مكتبة `jest-expo` مع `jest` (الأداة الرسمية من Expo للاختبار). **بانتظار موافقتك.** بدونها نكتفي بـ `tsc` و `lint` والاختبار اليدوي.
+منطق التسعير والتقسيم يُختبر بـ `jest-expo` + `jest` (معتمدة من صاحب المشروع). تُثبَّت في الجزء 0.5 عند أول منطق قابل للاختبار.
