@@ -75,7 +75,8 @@ export function Glass({ target, tint, intensity = 40, style, children }: GlassPr
       <BlurView
         tint="dark"
         intensity={intensity}
-        blurMethod="dimezisBlurViewSdk31Plus"
+        // No target yet (first frame): plain tint, instead of asking for a blur it can't do.
+        blurMethod={target ? 'dimezisBlurViewSdk31Plus' : 'none'}
         blurTarget={target ?? undefined}
         style={StyleSheet.absoluteFill}
       />

@@ -10,6 +10,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { LogBox } from 'react-native';
 
 import { useHeaderPinCenter } from '@/features/clubs/HomeHeader';
 import { OpeningAnimation } from '@/features/splash/OpeningAnimation';
@@ -21,6 +22,9 @@ import { colors } from '@/theme';
 // Keep the native splash (brand background) up until fonts are ready, so the
 // opening animation starts on the same color with no flash.
 SplashScreen.preventAutoHideAsync().catch(() => {});
+
+// Raised by a dependency touching RN's deprecated ImageBackground export (not used by the app).
+LogBox.ignoreLogs(['ImageBackground is deprecated']);
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({

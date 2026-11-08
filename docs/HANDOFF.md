@@ -21,6 +21,15 @@
 - **الأوبننج:** معتمد (الشعار يتركّب، `PACE = 1.5` ≈ 2.4 ث).
 - الرئيسية: البانر صار يقرأ أقرب حجز فعّال من الحالة (`state/bookings`) بدل البيانات الثابتة، وزر "التفاصيل" يفتح التذكرة. الكروت تفتح تفاصيل النادي و"احجز موعد" يفتح الحجز.
 
+## الريبو: تطبيق + لاندنج (طلب صاحب المشروع)
+- **المهمة 1 (نقل التطبيق لـ `mobile/`): لم تكتمل.** `git mv src` يفشل (Permission denied) لأن سيرفرات Expo قديمة (PIDs 2588، 32632، 13104، 33776) ماسكة الملفات. داخل `mobile/` بقايا نسخة ناقصة غير متتبعة (assets، node_modules جزئي، .expo، .claude، .impeccable) من محاولة نقل وقفت، لازم تنحذف قبل إعادة النقل.
+  - مؤقتاً: `tsconfig.json` في الجذر يستثني `land` و`mobile`.
+- **المهمة 2 (تمت):** `mobile/scripts/capture-screens.mjs` (يشتغل من الجذر قبل النقل وبعده): demo mode لشريط الحالة، يفتح Expo Go ويعيد المحاولة لو ما فتح، deep links، ثم WebP 1080px في `land/public/screens/` (home، club-details، booking، split-bill، match-pass). يحتاج adb وffmpeg (libwebp)، ومرة وحدة: إطفاء زر Tools في قائمة مطوّر Expo Go.
+  - التشغيل: `node mobile/scripts/capture-screens.mjs --url exp://127.0.0.1:<port>`.
+- **المهمة 3 (تمت):** `land/` Next.js 16 (App Router، static)، عربي RTL، Readex Pro + Space Mono عبر `next/font`، أيقونات Phosphor. النصوص في `land/lib/site.ts`. SEO: metadata + OG image + robots + sitemap. `Dockerfile` في الجذر يبني `land/` (standalone) — مجرّب: `docker build` و`docker run` والمسارات كلها 200.
+  - المكتبات (بموافقة صاحب المشروع): next 16.4.5، react/react-dom 19.3.1، @phosphor-icons/react 2.1.10، typescript 5.9.3 + أنواع React وNode.
+- إصلاح جانبي في التطبيق: `Glass` يستخدم `blurMethod: 'none'` قبل ما يجهز الهدف (كان يطلع تحذير BlurView)، و`LogBox` يتجاهل تحذير ImageBackground من مكتبة خارجية.
+
 ## Features حسب الحالة
 - **Approved:** 0.1، 0.2، 1.3
 - **Awaiting User Testing:** 0.3، 1.1، 1.2، 2.1–2.3، 3.1–3.5، 4.1–4.5، 5.1، 5.2 (بدون تبديل اللغة)

@@ -3,6 +3,10 @@
 # dependencies
 node_modules/
 
+# Next.js (land/)
+.next/
+next-env.d.ts
+
 # Expo
 .expo/
 dist/
