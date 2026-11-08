@@ -35,7 +35,7 @@ Branch: `feature/shell-motion`
 |---|---|---|---|---|
 | 1.1 | أساسيات الحركة: `PressableScale` و Haptics helper و `useReducedMotion` | 0.2 | كل ضغطة تتقلص بـ Spring. تقليل الحركة في الجهاز يلغي الأنيميشن الكبير | Planned |
 | 1.2 | التنقل: Root Stack وداخله 4 Tabs، وTab Bar مخصص (مؤشر Spring، تكبير الأيقونة، Haptic، blur مع بديل Android)، وانتقالات Stack حسب الاتجاه | 0.4, 1.1 | التنقل بين التابات سلس. المؤشر يتحرك بـ Spring. الاتجاه صحيح بالعربي والإنجليزي. Back gesture صحيح | Planned |
-| 1.3 | Splash المتحرك: الكرة تنط وترسم خطوط الملعب، الشعار يتوهج Volt، ثم زوم للرئيسية | 1.2 | المدة ≤ 3 ثواني، 60fps على المحاكي، بدون شاشة بيضاء بين Splash النظام والمتحرك | Planned |
+| 1.3 | الشعار SVG + أيقونة التطبيق من `ref/logo.png` + الأوبننج المتحرك (حسب [project-spec](project-spec.md#الشعار-والأوبننج-يحل-محل-فكرة-splash-في-الدفعة-2)) | 1.2 | مطابق للمعاينة المعتمدة، المدة ≤ 4 ثواني، 60fps على المحاكي، بدون وميض بين Splash النظام والمتحرك | Planned |
 
 ## Phase 2 — الاستكشاف (F4 + F5)
 Branch: `feature/discovery`
