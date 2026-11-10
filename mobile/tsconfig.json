@@ -16,8 +16,6 @@
     "nativewind-env.d.ts"
   ],
   "exclude": [
-    "node_modules",
-    "land",
-    "mobile"
+    "node_modules"
   ]
 }

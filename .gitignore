@@ -47,3 +47,9 @@ yarn-error.*
 
 # Video assets for the episode edit (never committed)
 video/
+
+# Design references (internal working material, not part of the open-source code)
+mobile/ref/
+
+# Tool caches
+**/.impeccable/hook.cache.json
